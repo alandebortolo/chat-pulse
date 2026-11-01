@@ -48,15 +48,32 @@ Built for the **Codex x TwitchCon Hackathon** with OpenAI Codex.
 
 ## Status
 
-Scaffold in this repo. The Worker, Durable Object, overlay and the full build are being
-implemented with OpenAI Codex (session ID recorded for the submission).
+Implemented and deployed at **https://chat-pulse.designmaster.workers.dev**.
+
+Personal entry by **Alan de Bortolo**, built with OpenAI Codex. [Session record](docs/codex-session.txt).
+
+- [Add to OBS](docs/OBS.md)
+- [Architecture, secrets and cost boundaries](docs/ARCHITECTURE.md)
+- [Verification and limitations](docs/VERIFICATION.md)
+
+OpenAI and Helix are optional. This deployment uses heuristic captions and channel logins
+without paid API calls. Raw chat never appears on the overlay or JSON API.
 
 ## Run locally
 
 ```
-npm install
-npm test        # pulse math + spike detector
+npm ci
+npm test        # pulse math, IRC, captions, lifecycle, routing
 npx wrangler dev # serves the overlay and API
 ```
 
 Then add `http://127.0.0.1:8787/overlay?channel=<any_public_channel>` as a Browser Source.
+
+## Deploy
+
+```sh
+npx wrangler deploy
+```
+
+The account and `CHANNEL` Durable Object binding are configured in `wrangler.toml`.
+Optional secrets are documented above. Do not commit `.dev.vars`, `.env` or credentials.

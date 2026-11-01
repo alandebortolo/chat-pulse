@@ -5,6 +5,14 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.156.0"
+  },
+  "engines": {
+    "node": ">=22.15.0"
   }
 }

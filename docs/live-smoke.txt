@@ -1,0 +1,7 @@
+https://chat-pulse.designmaster.workers.dev/overlay?channel=kaise
+ok
+{"channel": "kaise", "status": "Chat connected · live status unknown", "hype": "58", "transparent": "rgba(0, 0, 0, 0)", "width": 320}
+https://chat-pulse.designmaster.workers.dev/overlay?channel=kaise
+ok
+/tmp/chat-pulse-live.png
+{"channel":"kaise","connection":"reconnecting","live":null,"profile":null,"hype":81,"mpm":138,"uniqueChatters":54,"emoteDensity":0.069,"lastMessageAt":1793497756880,"lastSpike":{"at":1793497754441,"caption":"Chat surge","source":"heuristic"},"spikes":[{"at":1793497754441,"caption":"Chat surge","source":"heuristic"},{"at":1793497734439,"caption":"esfandLUL surge","source":"heuristic"}],"captionMode":"heuristic","updatedAt":1793497758076}

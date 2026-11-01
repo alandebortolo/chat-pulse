@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chat Pulse | Twitch chat energy</title>
+<meta name="description" content="A transparent OBS overlay for real Twitch chat energy and spike captions. Built by Alan de Bortolo with OpenAI Codex.">
+<style>
+:root{color-scheme:dark;--ink:#111714;--paper:#f0f5eb;--muted:#afbeb0;--signal:#c5f564;--line:#354134}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:transparent}body{font-family:Arial,Helvetica,sans-serif;color:var(--paper)}
+.instrument{width:400px;position:absolute;right:48px;bottom:48px;background:rgba(17,23,20,.96);border:1px solid var(--line);padding:24px}
+.masthead{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.wordmark{font-weight:800;letter-spacing:.12em;font-size:12px}.mark{display:inline-block;width:8px;height:16px;background:var(--signal);clip-path:polygon(0 0,35% 0,35% 65%,65% 35%,65% 0,100% 0,100% 100%,65% 100%,65% 65%,35% 100%,0 100%);transform:skewY(-20deg);margin-right:9px}.serial{font:11px monospace;color:var(--muted)}
+.channel{display:flex;align-items:center;gap:12px}.avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}.channel-name{margin:0;font-size:19px;overflow-wrap:anywhere}.status{font-size:11px;color:var(--muted);margin:5px 0 0;line-height:1.5}.status[data-state=connected]{color:var(--signal)}
+.energy{display:flex;align-items:baseline;gap:9px;margin:26px 0 12px}.value{font-size:76px;line-height:.95;font-weight:700;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.outof{font:14px monospace;color:var(--muted)}.energy-label{margin-left:auto;font-size:11px;letter-spacing:.14em;color:var(--signal)}
+.track{height:10px;background:#303b2c;position:relative;overflow:hidden}.fill{height:100%;background:var(--signal);transform-origin:left;transform:scaleX(0);transition:transform 700ms cubic-bezier(.2,.7,.2,1)}.track::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 2px),var(--ink) calc(10% - 2px),var(--ink) 10%)}
+.scale{display:flex;justify-content:space-between;font:10px monospace;color:var(--muted);margin-top:8px}.metrics{display:flex;gap:32px;margin:24px 0}.metric strong{display:block;font-size:26px;line-height:1.2;font-variant-numeric:tabular-nums}.metric span{color:var(--muted);font-size:11px}.feed-head{border-top:1px solid var(--line);padding-top:19px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.1em}.feed-head span:last-child{color:var(--muted);letter-spacing:0}
+ul{list-style:none;padding:0;margin:12px 0 0}li{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:baseline;animation:arrive .35s ease-out}li time{color:var(--signal);font:11px monospace;white-space:nowrap}li p{margin:0;font-size:14px;line-height:1.4;overflow-wrap:anywhere}li small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.empty{color:var(--muted);font-size:12px;line-height:1.6;margin:16px 0 0}.footer{margin:20px 0 0;color:var(--muted);font:10px monospace}
+@keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:1440px){.instrument{right:56px;bottom:56px;width:420px;padding:28px}}
+@media(min-width:768px) and (max-width:1023px){.instrument{right:24px;bottom:24px;width:380px}}
+@media(max-width:767px){.instrument{width:calc(100% - 32px);max-width:400px;right:16px;bottom:20px;padding:20px}.value{font-size:64px}.metrics{gap:28px}}
+@media(max-height:650px){.instrument{position:relative;margin:16px 16px 16px auto;right:auto;bottom:auto}.masthead{margin-bottom:16px}.energy{margin-top:20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="instrument" aria-label="Chat Pulse live overlay">
+ <header class="masthead"><div class="wordmark"><span class="mark" aria-hidden="true"></span>CHAT PULSE</div><span class="serial">TWITCH / OBS</span></header>
+ <div class="channel"><img id="avatar" class="avatar" alt="" hidden><div><h1 class="channel-name" id="channel">Connecting</h1><p class="status" id="status" role="status">Connecting to Twitch chat…</p></div></div>
+ <div class="energy"><strong class="value" id="hype">—</strong><span class="outof">/100</span><span class="energy-label">HYPE</span></div>
+ <div class="track" role="meter" aria-label="Chat hype" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="fill"></div></div>
+ <div class="scale"><span>QUIET</span><span>ERUPTING</span></div>
+ <div class="metrics"><div class="metric"><strong id="mpm">—</strong><span>messages / min</span></div><div class="metric"><strong id="chatters">—</strong><span>chatters / 60s</span></div></div>
+ <div class="feed-head"><span>SPIKE LOG</span><span>Latest 5 · local time</span></div>
+ <ul id="feed" aria-label="Recent chat spikes"></ul><p class="empty" id="empty">Waiting for the first surge.<br>Chat reactions will appear here.</p>
+ <p class="footer" id="mode">READ-ONLY CHAT · NO MESSAGES DISPLAYED</p>
+</main>
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const channel=new URL(location.href).searchParams.get('channel')?.toLowerCase();
+ $('channel').textContent=channel || 'Choose a channel';
+ const format=new Intl.NumberFormat('en-US'); let feedKey='';
+ async function poll(){
+  try {
+   const response=await fetch('/api/pulse?channel='+encodeURIComponent(channel),{cache:'no-store',signal:AbortSignal.timeout(10000)});
+   if(!response.ok) throw Error('unavailable');
+   const data=await response.json();
+   $('hype').textContent=data.hype; $('mpm').textContent=format.format(data.mpm); $('chatters').textContent=format.format(data.uniqueChatters);
+   $('fill').style.transform='scaleX('+Math.max(0,Math.min(1,data.hype/100))+')'; document.querySelector('[role=meter]').setAttribute('aria-valuenow',data.hype);
+   $('status').dataset.state=data.connection;
+   $('status').textContent=data.connection==='connected' ? (data.live===true ? 'Chat connected · channel live' : data.live===false ? 'Chat connected · channel offline' : 'Chat connected · live status unknown') : data.connection==='reconnecting' ? 'Connection interrupted · reconnecting…' : 'Joining Twitch chat…';
+   $('channel').textContent=data.profile?.name || channel;
+   const photo=data.profile?.image;
+   if(photo && new URL(photo).origin==='https://static-cdn.jtvnw.net') { if($('avatar').src!==photo) $('avatar').src=photo; $('avatar').hidden=false; } else $('avatar').hidden=true;
+   const key=JSON.stringify(data.spikes);
+   if(key!==feedKey){
+    feedKey=key; $('feed').replaceChildren(); $('empty').hidden=data.spikes.length>0;
+    for(const spike of data.spikes){
+     const li=document.createElement('li'),time=document.createElement('time'),p=document.createElement('p'),label=document.createElement('small');
+     time.dateTime=new Date(spike.at).toISOString(); time.textContent=new Date(spike.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+     p.textContent=spike.caption; label.textContent=spike.source==='openai' ? 'AI interpretation · may be inaccurate' : 'Chat pattern'; p.append(label); li.append(time,p); $('feed').append(li);
+    }
+   }
+  } catch {
+   $('status').dataset.state='error'; $('status').textContent='Updates interrupted · retrying automatically';
+   $('hype').textContent='—'; $('mpm').textContent='—'; $('chatters').textContent='—'; $('fill').style.transform='scaleX(0)';
+   document.querySelector('[role=meter]').setAttribute('aria-valuenow','0');
+  } finally {setTimeout(poll,3000);}
+ }
+ poll();
+})();
+</script>
+</body>
+</html>

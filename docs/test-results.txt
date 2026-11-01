@@ -1,0 +1,4 @@
+
+> chat-pulse@0.1.0 test
+> node --test
+
