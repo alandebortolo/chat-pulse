@@ -1,0 +1,152 @@
+[
+  {
+    "channel": "kaise",
+    "connection": "connected",
+    "live": null,
+    "profile": null,
+    "hype": 51,
+    "mpm": 141,
+    "uniqueChatters": 116,
+    "emoteDensity": 0.111,
+    "lastMessageAt": 1793497788226,
+    "lastSpike": {
+      "at": 1793497754441,
+      "caption": "Chat surge",
+      "source": "heuristic"
+    },
+    "spikes": [
+      {
+        "at": 1793497754441,
+        "caption": "Chat surge",
+        "source": "heuristic"
+      },
+      {
+        "at": 1793497734439,
+        "caption": "esfandLUL surge",
+        "source": "heuristic"
+      }
+    ],
+    "captionMode": "heuristic",
+    "updatedAt": 1793497790088
+  },
+  {
+    "channel": "kaise",
+    "connection": "connected",
+    "live": null,
+    "profile": null,
+    "hype": 51,
+    "mpm": 152,
+    "uniqueChatters": 116,
+    "emoteDensity": 0.104,
+    "lastMessageAt": 1793497802353,
+    "lastSpike": {
+      "at": 1793497754441,
+      "caption": "Chat surge",
+      "source": "heuristic"
+    },
+    "spikes": [
+      {
+        "at": 1793497754441,
+        "caption": "Chat surge",
+        "source": "heuristic"
+      },
+      {
+        "at": 1793497734439,
+        "caption": "esfandLUL surge",
+        "source": "heuristic"
+      }
+    ],
+    "captionMode": "heuristic",
+    "updatedAt": 1793497802364
+  },
+  {
+    "channel": "kaise",
+    "connection": "connected",
+    "live": null,
+    "profile": null,
+    "hype": 51,
+    "mpm": 121,
+    "uniqueChatters": 111,
+    "emoteDensity": 0.116,
+    "lastMessageAt": 1793497814144,
+    "lastSpike": {
+      "at": 1793497754441,
+      "caption": "Chat surge",
+      "source": "heuristic"
+    },
+    "spikes": [
+      {
+        "at": 1793497754441,
+        "caption": "Chat surge",
+        "source": "heuristic"
+      },
+      {
+        "at": 1793497734439,
+        "caption": "esfandLUL surge",
+        "source": "heuristic"
+      }
+    ],
+    "captionMode": "heuristic",
+    "updatedAt": 1793497814597
+  },
+  {
+    "channel": "kaise",
+    "connection": "connected",
+    "live": null,
+    "profile": null,
+    "hype": 40,
+    "mpm": 94,
+    "uniqueChatters": 88,
+    "emoteDensity": 0.074,
+    "lastMessageAt": 1793497826557,
+    "lastSpike": {
+      "at": 1793497754441,
+      "caption": "Chat surge",
+      "source": "heuristic"
+    },
+    "spikes": [
+      {
+        "at": 1793497754441,
+        "caption": "Chat surge",
+        "source": "heuristic"
+      },
+      {
+        "at": 1793497734439,
+        "caption": "esfandLUL surge",
+        "source": "heuristic"
+      }
+    ],
+    "captionMode": "heuristic",
+    "updatedAt": 1793497826862
+  },
+  {
+    "channel": "kaise",
+    "connection": "connected",
+    "live": null,
+    "profile": null,
+    "hype": 35,
+    "mpm": 83,
+    "uniqueChatters": 75,
+    "emoteDensity": 0.036,
+    "lastMessageAt": 1793497839126,
+    "lastSpike": {
+      "at": 1793497754441,
+      "caption": "Chat surge",
+      "source": "heuristic"
+    },
+    "spikes": [
+      {
+        "at": 1793497754441,
+        "caption": "Chat surge",
+        "source": "heuristic"
+      },
+      {
+        "at": 1793497734439,
+        "caption": "esfandLUL surge",
+        "source": "heuristic"
+      }
+    ],
+    "captionMode": "heuristic",
+    "updatedAt": 1793497839133
+  }
+]

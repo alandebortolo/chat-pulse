@@ -2,3 +2,37 @@
 > chat-pulse@0.1.0 test
 > node --test
 
+✔ without a key, caption never calls a paid API (3.683291ms)
+✔ provider errors preserve a usable heuristic (56.36325ms)
+✔ caps captions at six words and sends only twelve recent bounded lines (45.85375ms)
+✔ IRC events update pulse, keep channels isolated, never expose raw messages (4.882792ms)
+✔ server PING receives PONG, JOIN acknowledgement connects, reconnect uses backoff (0.692084ms)
+✔ idle channel releases socket and raw chat (0.189958ms)
+✔ an upgrade completing after idle shutdown must not leave an orphan socket (0.365958ms)
+✔ handshake timeout is cancelled once the WebSocket is established (0.796083ms)
+✔ extracts user, channel, text and repeated emote occurrences (1.388375ms)
+✔ decodes IRCv3 escapes without confusing a literal backslash (0.3455ms)
+✔ rejects malformed emote ranges and handles unicode code points (0.2375ms)
+✔ PING, notices, empty tags and malformed lines are safe (0.142291ms)
+✔ buffers split lines and multiple IRC messages (0.128209ms)
+✔ bounds incomplete buffers and validates channel names (0.194916ms)
+✔ clamp01 bounds and handles NaN (2.6555ms)
+✔ window trims events older than windowMs (0.253709ms)
+✔ uniqueChatters counts distinct users in window (0.129458ms)
+✔ emoteDensity is emotes per message (0.121666ms)
+✔ empty window has zero hype and zero density (0.351583ms)
+✔ hype rises with a sustained busy chat (4.168917ms)
+✔ hype stays low for a quiet chat (0.126292ms)
+✔ acceleration spikes when a burst arrives at the end (0.241792ms)
+✔ spike detector fires once then needs re-arm (0.194ms)
+✔ spike detector respects cooldown even after re-arm (0.149125ms)
+✔ routes normalize channel identity and reject injections before accessing a DO (88.515334ms)
+✔ overlay is transparent and reduced-motion aware; routes return honest errors (3.085292ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 566.766583
