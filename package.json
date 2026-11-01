@@ -1,0 +1,10 @@
+{
+  "name": "chat-pulse",
+  "version": "0.1.0",
+  "description": "Live OBS overlay that reads any Twitch channel's chat pulse and captions hype spikes. Built with OpenAI Codex for the Codex x TwitchCon Hackathon.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test"
+  }
+}
